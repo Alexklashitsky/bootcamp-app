@@ -17,9 +17,27 @@ steps:
 # - script: |
 #     npm run dev
 #   displayName: 'npm build'
-- script: |
-    PID=$!
-    sleep 2
-    kill $PID
-  displayName: 'stop proces'
-  
+# - script: |
+  #   PID=$!
+  #   sleep 2
+  #   kill $PID
+  # displayName: 'stop proces'
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: '*.tgz' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm
+  displayName: 'Copy npm package'
+
+- task: CopyFiles@2
+  inputs:
+    sourceFolder: '$(Build.SourcesDirectory)'
+    contents: 'package.json' 
+    targetFolder: $(Build.ArtifactStagingDirectory)/npm
+  displayName: 'Copy package.json'   
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)/npm'
+    artifactName: npm
+  displayName: 'Publish npm artifact'
