@@ -14,9 +14,9 @@ steps:
     npm install
   displayName: 'npm install'
 
-- script: |
-    npm run dev
-  displayName: 'npm build'
+# - script: |
+#     npm run dev
+#   displayName: 'npm build'
 - script: |
     PID=$!
     sleep 2
